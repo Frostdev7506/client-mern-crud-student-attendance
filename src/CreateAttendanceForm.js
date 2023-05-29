@@ -20,11 +20,14 @@ const CreateAttendanceForm = ({ createAttendance }) => {
       className="form-container"
       style={{
         textAlign: "center",
+        borderRadius: "10px",
 
+        boxShadow: "0px 0px 10px black",
         margin: "50px",
         padding: "30px",
         backgroundColor: "#F5F5F5",
-        margin: "40px ",
+        marginLeft: "500px",
+        marginRight: "500px",
       }}
     >
       <h2 style={{ textAlign: "center" }}>Create Attendance</h2>
@@ -53,13 +56,12 @@ const CreateAttendanceForm = ({ createAttendance }) => {
           <DatePicker
             id="date"
             style={{
-              width: "200px",
-              height: "30px",
+              display: "flex",
+              justifyContent: "center",
               margin: "2px auto",
               padding: "2px",
             }}
             placeholderText="Select Date"
-            className="form-control"
             showIcon={true}
             selected={date}
             onChange={(selectedDate) => setDate(selectedDate)}
@@ -89,10 +91,12 @@ const CreateAttendanceForm = ({ createAttendance }) => {
         <button
           type="submit"
           style={{
-            width: "100px",
-            paddingBottom: "2px",
-            margin: "1px solid black",
+            color: "white",
             height: "50px",
+            width: "70px",
+            backgroundColor: "#6B128B",
+            paddingBottom: "2px",
+            margin: "2px solid black",
           }}
         >
           Submit

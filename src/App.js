@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CreateAttendanceForm from "./CreateAttendanceForm";
 import AttendanceList from "./AttendanceList";
 import UpdateAttendanceForm from "./UpdateAttendanceForm";
-
+import Navbar from "./Navbar";
 const App = () => {
   const [attendance, setAttendance] = useState([]);
   const [updateAttendanceId, setUpdateAttendanceId] = useState(null);
@@ -98,7 +98,8 @@ const App = () => {
 
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>Student Attendance App</h1>
+      <Navbar />
+
       <CreateAttendanceForm createAttendance={createAttendance} />
       <AttendanceList
         attendance={attendance}

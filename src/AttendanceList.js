@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import "./App.css";
 const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
   const [editMode, setEditMode] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
@@ -35,7 +35,17 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        margin: "auto",
+        padding: "20px",
+        borderRadius: "10px",
+
+        boxShadow: "0px 0px 10px black",
+        marginLeft: "50px",
+        marginRight: "50px",
+      }}
+    >
       <h2 style={{ textAlign: "center" }}>Attendance List</h2>
       {attendance.map((record) => (
         <div
@@ -68,6 +78,13 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
                 onChange={handleChange}
               />
               <button
+                className="my-button"
+                style={{
+                  color: "white",
+                  height: "50px",
+                  width: "70px",
+                  backgroundColor: "#6B128B",
+                }}
                 onClick={() => handleUpdate(record.id, updatedValues.present)}
               >
                 Save
@@ -76,10 +93,30 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
           ) : (
             <>
               <p>Student ID: {record.student_id}</p>
-              <p>Date: {record.date}</p>
+              <p>Date: {record.date.slice(0, 10)}</p>
               <p>Present: {record.present ? "Yes" : "No"}</p>
-              <button onClick={() => handleEdit(record.id)}>Edit</button>
-              <button onClick={() => handleDelete(record.id)}>Delete</button>
+              <button
+                style={{
+                  color: "white",
+                  height: "50px",
+                  width: "70px",
+                  backgroundColor: "#6B128B",
+                }}
+                onClick={() => handleEdit(record.id)}
+              >
+                Edit
+              </button>
+              <button
+                style={{
+                  color: "white",
+                  height: "50px",
+                  width: "70px",
+                  backgroundColor: "#6B128B",
+                }}
+                onClick={() => handleDelete(record.id)}
+              >
+                Delete
+              </button>
             </>
           )}
         </div>
