@@ -13,10 +13,16 @@ const Navbar = () => {
       <div className="navbar-logo">
         <h3>SAA</h3>
       </div>
-      <div>
+      <div className="navbar-title">
         <h2>Student Attendance App</h2>
       </div>
-      <ul className={isOpen ? "navbar-links active" : "navbar-links"}>
+      <div
+        className={`navbar-toggle ${isOpen ? "open" : ""}`}
+        onClick={toggleNavbar}
+      >
+        <span className="toggle-icon"></span>
+      </div>
+      <ul className={`navbar-links ${isOpen ? "active" : ""}`}>
         <li className="navbar-item">
           <a href="#home" className="navbar-link">
             Home
@@ -29,7 +35,7 @@ const Navbar = () => {
         </li>
         <li className="navbar-item">
           <a href="#services" className="navbar-link">
-            Services
+            Teacher portal
           </a>
         </li>
         <li className="navbar-item">
@@ -38,9 +44,6 @@ const Navbar = () => {
           </a>
         </li>
       </ul>
-      <div className="navbar-toggle" onClick={toggleNavbar}>
-        <span className={isOpen ? "toggle-icon open" : "toggle-icon"}></span>
-      </div>
     </nav>
   );
 };

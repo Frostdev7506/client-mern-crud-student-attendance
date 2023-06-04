@@ -3,6 +3,7 @@ import CreateAttendanceForm from "./CreateAttendanceForm";
 import AttendanceList from "./AttendanceList";
 import UpdateAttendanceForm from "./UpdateAttendanceForm";
 import Navbar from "./Navbar";
+import Appcss from "./App.css";
 const App = () => {
   const [attendance, setAttendance] = useState([]);
   const [updateAttendanceId, setUpdateAttendanceId] = useState(null);

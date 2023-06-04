@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import "./App.css";
 const CreateAttendanceForm = ({ createAttendance }) => {
   const [studentId, setStudentId] = useState("");
   const [date, setDate] = useState(null);
@@ -26,8 +26,8 @@ const CreateAttendanceForm = ({ createAttendance }) => {
         margin: "50px",
         padding: "30px",
         backgroundColor: "#F5F5F5",
-        marginLeft: "500px",
-        marginRight: "500px",
+        marginLeft: "50px",
+        marginRight: "50px",
       }}
     >
       <h2 style={{ textAlign: "center" }}>Create Attendance</h2>
