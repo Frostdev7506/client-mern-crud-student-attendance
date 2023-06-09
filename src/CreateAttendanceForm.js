@@ -41,8 +41,9 @@ const CreateAttendanceForm = ({ createAttendance }) => {
               height: "30px",
               margin: "2px auto",
               padding: "2px",
-              placeholderText: "Enter Student ID",
             }}
+            label="Enter your student id"
+            placeholderText="Enter Your Student Id"
             autoComplete="off"
             id="studentId"
             type="text"
@@ -57,11 +58,15 @@ const CreateAttendanceForm = ({ createAttendance }) => {
             id="date"
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "center ",
+              textAlign: "center",
+              alignItems: "center",
+              left: "50%",
+              top: "50%",
+
               margin: "2px auto",
               padding: "2px",
             }}
-            placeholderText="Select Date"
             showIcon={true}
             selected={date}
             onChange={(selectedDate) => setDate(selectedDate)}
