@@ -67,7 +67,6 @@ const CreateAttendanceForm = ({ createAttendance }) => {
               margin: "2px auto",
               padding: "2px",
             }}
-            showIcon={true}
             selected={date}
             onChange={(selectedDate) => setDate(selectedDate)}
             autoComplete="off"

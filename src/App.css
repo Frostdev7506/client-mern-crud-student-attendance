@@ -44,6 +44,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  border-radius: 10px;
 }
 
 .App-link {
@@ -63,14 +64,14 @@
 
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  margin: 2 auto;
+  padding: 2px;
 }
 
 .container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 2 auto;
+  padding: 2px;
 }
 
 h1 {
@@ -84,6 +85,59 @@ p {
   margin-bottom: 20px;
 }
 
+.titles {
+  padding: 2px;
+  font-size: 18px;
+}
+
+.exportbtn {
+  height: auto;
+  width: auto;
+
+  border-radius: 10px;
+  box-shadow: inset;
+
+  display: flex;
+  direction: row;
+  justify-content: center;
+}
+.export-button {
+  overflow: hidden;
+  color: white;
+  margin: 30px;
+  height: 50px;
+  width: 70px;
+  background-color: #6b128b;
+}
+
+.line {
+  display: flex;
+  direction: row;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* .line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.line:hover::after {
+  opacity: 1;
+}
+
+.line:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+} */
 /* Media queries */
 
 /* Small devices (phones) */
@@ -96,6 +150,19 @@ p {
     padding: 2px;
     margin-left: 10px;
     margin-right: 10px;
+  }
+
+  .line {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lineElement {
+    max-width: 50%; /* Adjust the max-width as needed for medium screens */
+    width: auto; /* Reset the width to automatically adjust based on content */
+    margin-right: 20px; /* Adjust the margin as needed for medium screens */
   }
 }
 /* Medium devices (tablets) */
@@ -116,6 +183,14 @@ p {
     max-width: 600px; /* Adjust the max-width value as per your requirement */
     width: 100%;
     height: 50vh; /* Adjust the height value as per your requirement */
+  }
+
+  .lineElement {
+    white-space: nowrap;
+    max-width: 20%;
+    width: 20px;
+
+    margin-right: auto;
   }
 }
 
@@ -138,5 +213,12 @@ p {
     max-width: 600px; /* Adjust the max-width value as per your requirement */
     width: 100%;
     height: 50vh; /* Adjust the height value as per your requirement */
+  }
+
+  .lineElement {
+    justify-content: space-around;
+    white-space: nowrap;
+    max-width: 10%;
+    width: 70px;
   }
 }
