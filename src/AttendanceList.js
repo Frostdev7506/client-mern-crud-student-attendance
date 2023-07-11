@@ -82,107 +82,118 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
           marginRight: "50px",
         }}
       >
-        <h1 style={{ textAlign: "center" }}>Attendance List</h1>
+        <h1 style={{ textAlign: "center", fontSize: "2rem " }}>
+          Attendance List
+        </h1>
         <div className="exportbtn">
-          <button className="export-button" onClick={exportToExcel}>
+          <button
+            className="export-button"
+            onClick={exportToExcel}
+            style={{ width: "150px" }}
+          >
             Export to Excel
           </button>
         </div>
 
         {attendance.map((record) => (
-          <div
-            key={record.id}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              margin: "40px",
-              justifyContent: "space-between",
-            }}
-          >
-            {editMode === record.id ? (
-              <>
-                <input
-                  type="text"
-                  name="student_id"
-                  value={updatedValues.student_id}
-                  onChange={handleChange}
-                />
-                <div className="datepicker-container">
-                  <DatePicker
-                    id="date"
-                    selected={date}
-                    onChange={(selectedDate) => setDate(selectedDate)}
-                    autoComplete="off"
-                    dateFormat="yyyy-MM-dd"
-                    isClearable
-                  />
-                </div>
-                <input
-                  type="checkbox"
-                  name="present"
-                  checked={updatedValues.present}
-                  onChange={handleChange}
-                />
-                <button
-                  className="my-button"
-                  style={{
-                    color: "white",
-                    height: "50px",
-                    width: "70px",
-                    backgroundColor: "#6B128B",
-                  }}
-                  onClick={() => handleUpdate(record.id)}
-                >
-                  Save
-                </button>
-              </>
-            ) : (
-              <>
-                <div className="line">
-                  <div className="studentid lineElement">
-                    <p className="Titles">Student ID:</p>{" "}
-                    <p>{record.student_id}</p>
-                  </div>
-                  <div className="date lineElement">
-                    <p className="Titles">Date:</p>{" "}
-                    <p>{record.date.slice(0, 10).toLocaleString("en-IN")}</p>
-                  </div>
-                  <div className="present lineElement">
-                    <p className="Titles">Present:</p>
-                    <p>{record.present ? "Yes" : "No"}</p>
-                  </div>
+          <div>
+            <hr />
+            <div
+              key={record.id}
+              style={{
+                display: "flex",
 
+                flexDirection: "row",
+                margin: "40px",
+                justifyContent: "space-between",
+              }}
+            >
+              {editMode === record.id ? (
+                <>
+                  <input
+                    type="text"
+                    name="student_id"
+                    value={updatedValues.student_id}
+                    onChange={handleChange}
+                  />
+                  <div className="datepicker-container">
+                    <DatePicker
+                      id="date"
+                      selected={date}
+                      onChange={(selectedDate) => setDate(selectedDate)}
+                      autoComplete="off"
+                      dateFormat="yyyy-MM-dd"
+                      isClearable
+                    />
+                  </div>
+                  <input
+                    type="checkbox"
+                    name="present"
+                    checked={updatedValues.present}
+                    onChange={handleChange}
+                  />
                   <button
-                    className="editbtn lineElement"
+                    className="my-button"
                     style={{
                       color: "white",
-                      marginTop: "30px",
                       height: "50px",
                       width: "70px",
                       backgroundColor: "#6B128B",
                     }}
-                    onClick={() => handleEdit(record.id)}
+                    onClick={() => handleUpdate(record.id)}
                   >
-                    Edit
+                    Save
                   </button>
-                  <button
-                    className="deletebtn lineElement"
-                    style={{
-                      color: "white",
-                      marginTop: "30px",
-                      height: "50px",
-                      width: "70px",
-                      backgroundColor: "#6B128B",
-                    }}
-                    onClick={() => handleDelete(record.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </>
-            )}
+                </>
+              ) : (
+                <>
+                  <div className="line">
+                    <div className="studentid lineElement">
+                      <p className="Titles">Student ID:</p>{" "}
+                      <p>{record.student_id}</p>
+                    </div>
+                    <div className="date lineElement">
+                      <p className="Titles">Date:</p>{" "}
+                      <p>{record.date.slice(0, 10).toLocaleString("en-IN")}</p>
+                    </div>
+                    <div className="present lineElement">
+                      <p className="Titles">Present:</p>
+                      <p>{record.present ? "Yes" : "No"}</p>
+                    </div>
+
+                    <button
+                      className="editbtn lineElement"
+                      style={{
+                        color: "white",
+                        marginTop: "30px",
+                        height: "50px",
+                        width: "70px",
+                        backgroundColor: "#6B128B",
+                      }}
+                      onClick={() => handleEdit(record.id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="deletebtn lineElement"
+                      style={{
+                        color: "white",
+                        marginTop: "30px",
+                        height: "50px",
+                        width: "70px",
+                        backgroundColor: "#6B128B",
+                      }}
+                      onClick={() => handleDelete(record.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         ))}
+        <hr></hr>
       </div>
     </div>
   );

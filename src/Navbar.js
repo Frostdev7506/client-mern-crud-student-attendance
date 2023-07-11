@@ -14,7 +14,7 @@ const Navbar = () => {
         <h3>SAA</h3>
       </div>
       <div className="navbar-title">
-        <h2>Student Attendance App</h2>
+        <h2>Student Attendance</h2>
       </div>
       <div
         className={`navbar-toggle ${isOpen ? "open" : ""}`}
@@ -35,7 +35,7 @@ const Navbar = () => {
         </li>
         <li className="navbar-item">
           <a href="#services" className="navbar-link">
-            Teacher portal
+            Teacher-portal
           </a>
         </li>
         <li className="navbar-item">

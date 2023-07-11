@@ -21,7 +21,8 @@ const CreateAttendanceForm = ({ createAttendance }) => {
       style={{
         textAlign: "center",
         borderRadius: "10px",
-
+        marginTop: "200px",
+        height: "60vh",
         boxShadow: "0px 0px 10px black",
         margin: "50px",
         padding: "30px",
@@ -30,9 +31,11 @@ const CreateAttendanceForm = ({ createAttendance }) => {
         marginRight: "50px",
       }}
     >
-      <h2 style={{ textAlign: "center" }}>Create Attendance</h2>
+      <h2 style={{ textAlign: "center", fontSize: "2rem" }}>
+        Create Attendance
+      </h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div style={{ fontSize: "1.5rem" }}>
           <label htmlFor="studentId">Student ID:</label>
           <br />
           <input
@@ -52,7 +55,7 @@ const CreateAttendanceForm = ({ createAttendance }) => {
           />
         </div>
         <br />
-        <div>
+        <div style={{ fontSize: "1.5rem" }}>
           <label htmlFor="date">Date:</label>
           <DatePicker
             id="date"
@@ -75,7 +78,7 @@ const CreateAttendanceForm = ({ createAttendance }) => {
           />
         </div>
         <br />
-        <div>
+        <div style={{ fontSize: "1.5rem" }}>
           <label>Present:</label>
           <br />
           <input
@@ -97,7 +100,7 @@ const CreateAttendanceForm = ({ createAttendance }) => {
           style={{
             color: "white",
             height: "50px",
-            width: "70px",
+            width: "100px",
             backgroundColor: "#6B128B",
             paddingBottom: "2px",
             margin: "2px solid black",
