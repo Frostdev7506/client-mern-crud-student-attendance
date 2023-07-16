@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import "./Navbar.css";
+import "./styles/Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ token, handleLogin, handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleLogoutClick = () => {
+    // Clear the token from local storage and call the logout function
+    localStorage.removeItem("token");
+    handleLogout();
+  };
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
@@ -44,6 +49,13 @@ const Navbar = () => {
           </a>
         </li>
       </ul>
+      {token ? (
+        <button className="toggle logout" onClick={handleLogout}>
+          Logout
+        </button>
+      ) : (
+        <p></p>
+      )}
     </nav>
   );
 };

@@ -12,6 +12,19 @@
   padding: 10px;
 }
 
+.toggle {
+  margin: 0;
+  border-radius: 10px;
+  color: "white";
+  height: 40px;
+  width: 70px;
+}
+
+.toggle:hover {
+  background-color: #6b128b;
+  color: beige;
+}
+
 .navbar-logo h3 {
   margin: 0;
   border-radius: 20px;

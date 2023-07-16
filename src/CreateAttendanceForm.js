@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./App.css";
+import "./styles/App.css";
 const CreateAttendanceForm = ({ createAttendance }) => {
   const [studentId, setStudentId] = useState("");
   const [date, setDate] = useState(null);
@@ -46,7 +46,7 @@ const CreateAttendanceForm = ({ createAttendance }) => {
               padding: "2px",
             }}
             label="Enter your student id"
-            placeholderText="Enter Your Student Id"
+            placeholdertext="Enter Your Student Id"
             autoComplete="off"
             id="studentId"
             type="text"

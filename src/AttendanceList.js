@@ -1,14 +1,20 @@
 import React, { useState } from "react";
-import "./App.css";
 import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { DateTime } from "luxon";
 
-const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
+const AttendanceList = ({
+  fetchAttendance,
+  attendance,
+  deleteAttendance,
+  updateAttendance,
+}) => {
   const [editMode, setEditMode] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
   const [date, setDate] = useState(null); // State for the date picker
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleDelete = (attendanceId) => {
     deleteAttendance(attendanceId);
@@ -34,8 +40,12 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
   };
 
   const handleUpdate = (attendanceId) => {
-    const { student_id, present } = updatedValues; // Remove date from here
-    const updatedRecord = { student_id, date: date.toISOString(), present }; // Include the updated date from the date picker
+    const { student_id, present } = updatedValues;
+    const updatedRecord = {
+      student_id,
+      date: date ? DateTime.fromJSDate(date).toISODate() : "",
+      present,
+    };
     updateAttendance(attendanceId, updatedRecord);
     setEditMode(null);
     setUpdatedValues({});
@@ -57,7 +67,7 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
     attendance.forEach((record) => {
       worksheet.addRow({
         studentId: record.student_id,
-        date: record.date.slice(0, 10),
+        date: DateTime.fromISO(record.date).toISODate(),
         present: record.present ? "Yes" : "No",
       });
     });
@@ -68,6 +78,68 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
     saveAs(blob, "attendance.xlsx");
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const importFromExcel = () => {
+    if (selectedFile) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const data = new Uint8Array(event.target.result);
+        const workbook = new ExcelJS.Workbook();
+        workbook.xlsx.load(data).then(() => {
+          const worksheet = workbook.getWorksheet("Attendance");
+          const importedAttendance = [];
+
+          worksheet.eachRow((row, rowNumber) => {
+            if (rowNumber > 1) {
+              // Skip the first row (headers)
+              const studentId = row.getCell("A").value;
+              const dateCellValue = row.getCell("B").value;
+              // const date = DateTime.fromJSDate(row.getCell("B").value);
+              const present = row.getCell("C").value === "Yes";
+              console.log("Date Cell Value:", dateCellValue);
+              console.log("values------------", studentId, present);
+
+              let date = ""; // Default empty date value
+              if (dateCellValue) {
+                const dateObj = new Date(dateCellValue);
+                if (!isNaN(dateObj.getTime())) {
+                  date = dateObj.toISOString().slice(0, 10);
+                }
+              }
+              importedAttendance.push({ student_id: studentId, date, present });
+            }
+          });
+
+          // Make API request to insert the imported attendance data
+          fetch("http://localhost:5000/attendance", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(importedAttendance),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Handle the response data if needed
+              console.log("Import successful:", data);
+              fetchAttendance();
+            })
+            .catch((error) => {
+              // Handle the error if needed
+              console.log("Import error:", error);
+            });
+        });
+      };
+
+      reader.readAsArrayBuffer(selectedFile);
+    }
   };
 
   return (
@@ -85,24 +157,44 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
         <h1 style={{ textAlign: "center", fontSize: "2rem " }}>
           Attendance List
         </h1>
-        <div className="exportbtn">
-          <button
-            className="export-button"
-            onClick={exportToExcel}
-            style={{ width: "150px" }}
-          >
-            Export to Excel
-          </button>
-        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <div className="exportbtn">
+            <button
+              className="export-button"
+              onClick={exportToExcel}
+              style={{ width: "150px" }}
+            >
+              Export to Excel
+            </button>
+          </div>
 
+          <div className="exportbtn">
+            <input type="file" accept=".xlsx" onChange={handleFileChange} />
+          </div>
+
+          <div className="exportbtn">
+            <button
+              className="export-button"
+              onClick={importFromExcel}
+              style={{ width: "150px" }}
+            >
+              Import From Excel
+            </button>
+          </div>
+        </div>
         {attendance.map((record) => (
-          <div>
+          <div key={record.id}>
             <hr />
             <div
               key={record.id}
               style={{
                 display: "flex",
-
                 flexDirection: "row",
                 margin: "40px",
                 justifyContent: "space-between",
@@ -148,16 +240,22 @@ const AttendanceList = ({ attendance, deleteAttendance, updateAttendance }) => {
               ) : (
                 <>
                   <div className="line">
-                    <div className="studentid lineElement">
-                      <p className="Titles">Student ID:</p>{" "}
+                    <div key={record.id} className="studentid lineElement">
+                      <p style={{ fontSize: "1.2rem " }} className="Titles">
+                        Student ID:
+                      </p>{" "}
                       <p>{record.student_id}</p>
                     </div>
                     <div className="date lineElement">
-                      <p className="Titles">Date:</p>{" "}
-                      <p>{record.date.slice(0, 10).toLocaleString("en-IN")}</p>
+                      <p style={{ fontSize: "1.2rem " }} className="Titles">
+                        Date:
+                      </p>{" "}
+                      <p>{DateTime.fromISO(record.date).toISODate()}</p>
                     </div>
                     <div className="present lineElement">
-                      <p className="Titles">Present:</p>
+                      <p style={{ fontSize: "1.2rem " }} className="Titles">
+                        Present:
+                      </p>
                       <p>{record.present ? "Yes" : "No"}</p>
                     </div>
 
