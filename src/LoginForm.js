@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const LoginForm = ({ handleLogin, loginState }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [formtype, setFormtype] = useState("Login");
+  const [formtype, setFormtype] = useState("Teacher Login");
   const [islogin, setislogin] = useState(loginState);
   console.log(islogin);
 
@@ -21,6 +21,7 @@ const LoginForm = ({ handleLogin, loginState }) => {
     <div
       style={{
         display: "flex",
+        margin: "100px",
         flexDirection: "row",
         justifyContent: "center",
       }}

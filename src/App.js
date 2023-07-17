@@ -4,6 +4,7 @@ import AttendanceList from "./AttendanceList";
 import UpdateAttendanceForm from "./UpdateAttendanceForm";
 import LoginForm from "./LoginForm";
 import Navbar from "./Navbar";
+import AttendanceReport from "./AttendanceReport";
 import Footer from "./Footer";
 import Appcss from "./styles/App.css";
 import { DateTime } from "luxon";
@@ -177,6 +178,8 @@ const App = () => {
               setUpdatedValues={setUpdatedValues}
             />
           )}
+
+          <AttendanceReport />
         </>
       ) : (
         <LoginForm handleLogin={handleLogin} loginState={loginState} />

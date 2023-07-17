@@ -3,6 +3,7 @@ import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 import { DateTime } from "luxon";
 
 const AttendanceList = ({
@@ -164,28 +165,35 @@ const AttendanceList = ({
             justifyContent: "center",
           }}
         >
-          <div className="exportbtn">
-            <button
-              className="export-button"
-              onClick={exportToExcel}
-              style={{ width: "150px" }}
-            >
-              Export to Excel
-            </button>
-          </div>
+          <div className="iobtns">
+            <div className="exportbtn">
+              <button
+                className="export-button"
+                onClick={exportToExcel}
+                style={{ width: "150px" }}
+              >
+                Export to Excel
+              </button>
+            </div>
 
-          <div className="exportbtn">
-            <input type="file" accept=".xlsx" onChange={handleFileChange} />
-          </div>
+            <div className="exportbtn" style={{ width: "200px" }}>
+              <input
+                type="file"
+                accept=".xlsx"
+                style={{ width: "200px" }}
+                onChange={handleFileChange}
+              />
+            </div>
 
-          <div className="exportbtn">
-            <button
-              className="export-button"
-              onClick={importFromExcel}
-              style={{ width: "150px" }}
-            >
-              Import From Excel
-            </button>
+            <div className="exportbtn">
+              <button
+                className="export-button"
+                onClick={importFromExcel}
+                style={{ width: "150px" }}
+              >
+                Import From Excel
+              </button>
+            </div>
           </div>
         </div>
         {attendance.map((record) => (

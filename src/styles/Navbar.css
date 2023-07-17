@@ -61,9 +61,9 @@
 }
 
 .toggle-icon {
-  display: inline-block;
+  display: block;
   width: 25px;
-  height: 3px;
+  height: 4px;
   background-color: #333;
   margin: 4px;
   transition: transform 0.3s;
@@ -84,7 +84,7 @@ a:focus {
   }
 
   .navbar-toggle {
-    display: block;
+    display: inline;
   }
 
   .navbar-links.active {

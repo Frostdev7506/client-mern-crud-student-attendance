@@ -26,6 +26,8 @@ const Navbar = ({ token, handleLogin, handleLogout }) => {
         onClick={toggleNavbar}
       >
         <span className="toggle-icon"></span>
+        <span className="toggle-icon"></span>
+        <span className="toggle-icon"></span>
       </div>
       <ul className={`navbar-links ${isOpen ? "active" : ""}`}>
         <li className="navbar-item">
