@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./styles/AttendanceReport.css";
@@ -10,15 +10,23 @@ import {
   TableCell,
   TableBody,
   Paper,
+  Button,
 } from "@material-ui/core";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import html2canvas from "html2canvas";
+
 import { DateTime } from "luxon";
 
 const AttendanceReport = () => {
   const [attendanceData, setAttendanceData] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
+
   const [studentId, setStudentId] = useState("");
   const [totalAttendance, setTotalAttendance] = useState(0);
   const [monthlyAttendance, setMonthlyAttendance] = useState([]);
+
+  const pdfRef = useRef(null);
 
   useEffect(() => {
     // Fetch attendance data from the server
@@ -28,19 +36,19 @@ const AttendanceReport = () => {
         setAttendanceData(data);
       })
       .catch((error) => console.log(error));
-  });
+    handleCheckAttendance();
+  }, [studentId, selectedMonth, attendanceData]);
 
   const handleCheckAttendance = () => {
-    if (selectedMonth === null) {
-      alert("Please select a month.");
-      return;
+    if (studentId == null) {
+      setStudentId("anon");
     }
 
-    if (studentId.trim() === "") {
-      alert("Please enter a student ID.");
-      return;
+    if (selectedMonth == null) {
+      setSelectedMonth("1923-07-16T18:30:00.000Z");
     }
 
+    console.log("attendance  data ", attendanceData);
     const filteredAttendance = attendanceData.filter((record) => {
       const recordDate = new Date(record.date);
       return (
@@ -54,6 +62,79 @@ const AttendanceReport = () => {
     setMonthlyAttendance(filteredAttendance);
 
     setTotalAttendance(monthlyAttendance.length);
+  };
+
+  const generatePDF = () => {
+    const pdf = new jsPDF("p", "pt", "a4");
+    const tableData = [];
+    let totalPresent = 0;
+    let totalAbsent = 0;
+    let totalWorkingDays = 20;
+
+    // Convert monthlyAttendance to a 2D array with proper string representation
+    monthlyAttendance.forEach((record, index) => {
+      const rowData = [
+        (index + 1).toString(),
+        record.student_id.toString(), // Make sure student_id is converted to string
+        record.date.slice(0, 10),
+        record.present ? "Yes" : "No",
+      ];
+
+      record.present ? totalPresent++ : totalAbsent++;
+
+      tableData.push(rowData);
+    });
+
+    // Change font size and remove background shade for the summary rows
+    const valuestyles = {
+      fontSize: 12,
+      fillColor: false, // Remove background shade
+    };
+
+    // Calculate totalWorkingDays as per your requirement
+    const calculatedTotalWorkingDays =
+      totalAbsent + totalPresent > 20
+        ? totalAbsent + totalPresent
+        : totalWorkingDays;
+
+    totalAbsent = calculatedTotalWorkingDays - totalPresent;
+
+    // empty data for adding space between table and values  in the pdf
+    tableData.push([
+      "", // Empty cell for serial number
+      "", // Empty cell for student_id
+      "", // Label for the total days present
+      "", // Number of days present
+    ]);
+
+    // Add the calculated values to the tableData array
+    // Add the calculated values to the tableData array with the specified values
+    tableData.push([
+      { content: "", valuestyles }, // Empty cell for serial number
+      { content: "", valuestyles }, // Empty cell for student_id
+      { content: "Total Days Present:", valuestyles }, // Label for the total days present
+      { content: totalPresent.toString(), valuestyles }, // Number of days present
+    ]);
+    tableData.push([
+      { content: "", valuestyles }, // Empty cell for serial number
+      { content: "", valuestyles }, // Empty cell for student_id
+      { content: "Total Days Absent:", valuestyles }, // Label for the total days absent
+      { content: totalAbsent.toString(), valuestyles }, // Number of days absent
+    ]);
+    tableData.push([
+      { content: "", valuestyles }, // Empty cell for serial number
+      { content: "", valuestyles }, // Empty cell for student_id
+      { content: "Total Working Days:", valuestyles }, // Label for the total working days
+      { content: calculatedTotalWorkingDays.toString(), valuestyles }, // Number of total working days
+    ]);
+    // Add table to PDF using autoTable function
+    pdf.autoTable({
+      head: [["Sr.no", "Student ID", "Date", "Present"]],
+      body: tableData,
+      startY: 100,
+    });
+
+    pdf.save("attendance_report.pdf");
   };
 
   return (
@@ -94,7 +175,9 @@ const AttendanceReport = () => {
             type="text"
             id="studentId"
             value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
+            onInput={(e) => {
+              setStudentId(e.target.value);
+            }}
           />
         </div>
         <div
@@ -117,7 +200,9 @@ const AttendanceReport = () => {
               padding: "2px",
             }}
             selected={selectedMonth}
-            onChange={(date) => setSelectedMonth(date)}
+            onChange={(date) => {
+              setSelectedMonth(date);
+            }}
             dateFormat="MMMM yyyy"
             showMonthYearPicker
             showFullMonthYearPicker
@@ -138,7 +223,7 @@ const AttendanceReport = () => {
         </button>
         {totalAttendance > 0 ? (
           <p>
-            Total attendance for student ID {studentId} in{" "}
+            No of rows found for {studentId} in{" "}
             {selectedMonth.toLocaleString("en-US", {
               month: "long",
               year: "numeric",
@@ -170,6 +255,23 @@ const AttendanceReport = () => {
               </TableBody>
             </Table>
           </TableContainer>
+        )}
+
+        {totalAttendance > 0 && (
+          <div className="yes">
+            <Button
+              style={{
+                color: "white",
+                marginTop: "30px",
+                height: "50px",
+                width: "140px",
+                backgroundColor: "#6B128B",
+              }}
+              onClick={generatePDF}
+            >
+              Generate Report
+            </Button>
+          </div>
         )}
       </div>
     </div>
