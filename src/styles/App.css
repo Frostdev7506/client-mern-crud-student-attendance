@@ -143,13 +143,22 @@ p {
 /* Small devices (phones) */
 @media (max-width: 576px) {
   .form-container {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-radius: 10px;
     box-shadow: 0px 10px black;
     margin: 10px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-left: 30px;
+    margin-right: 20px;
     padding: 2px;
-    margin-left: 10px;
-    margin-right: 10px;
+
+    max-width: 600px; /* Adjust the max-width value as per your requirement */
+    width: 80%;
+    height: 100vh;
   }
 
   .line {
@@ -171,17 +180,14 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: relative;
-
     align-items: center;
     border-radius: 10px;
     box-shadow: 0px 10px black;
-    margin: 10px;
+    margin: 100px;
     padding: 2px;
-    margin-left: auto;
-    margin-right: auto;
+
     max-width: 600px; /* Adjust the max-width value as per your requirement */
-    width: 100%;
+    width: 80%;
     height: 50vh; /* Adjust the height value as per your requirement */
   }
 
@@ -200,19 +206,17 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: relative;
-    left: 30%;
-    right: 30%;
     align-items: center;
+    margin: 250px;
+    margin-left: 650px;
     border-radius: 10px;
     box-shadow: 0px 10px black;
-    margin: 10px;
+
     padding: 2px;
-    margin-left: auto;
-    margin-right: auto;
+
     max-width: 600px; /* Adjust the max-width value as per your requirement */
     width: 100%;
-    height: 50vh; /* Adjust the height value as per your requirement */
+    height: 100vh; /* Adjust the height value as per your requirement */
   }
 
   .lineElement {

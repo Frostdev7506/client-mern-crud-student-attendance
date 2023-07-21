@@ -25,6 +25,7 @@ const AttendanceReport = () => {
   const [studentId, setStudentId] = useState("");
   const [totalAttendance, setTotalAttendance] = useState(0);
   const [monthlyAttendance, setMonthlyAttendance] = useState([]);
+  const [selectedDuration, setSelectedDuration] = useState(1);
 
   const pdfRef = useRef(null);
 
@@ -37,7 +38,7 @@ const AttendanceReport = () => {
       })
       .catch((error) => console.log(error));
     handleCheckAttendance();
-  }, [studentId, selectedMonth, attendanceData]);
+  }, [studentId, selectedMonth, attendanceData, selectedDuration]);
 
   const handleCheckAttendance = () => {
     if (studentId == null) {
@@ -48,15 +49,29 @@ const AttendanceReport = () => {
       setSelectedMonth("1923-07-16T18:30:00.000Z");
     }
 
-    console.log("attendance  data ", attendanceData);
+    // Calculate the end date based on the selected duration
+    const endDate = DateTime.fromJSDate(selectedMonth)
+      .plus({ months: selectedDuration })
+      .toJSDate();
+
+    // Filter the attendance data based on the selected duration
     const filteredAttendance = attendanceData.filter((record) => {
       const recordDate = new Date(record.date);
       return (
         record.student_id.toLowerCase() === studentId.toLowerCase() &&
-        recordDate.getMonth() === selectedMonth.getMonth() &&
-        recordDate.getFullYear() === selectedMonth.getFullYear()
+        recordDate >= selectedMonth &&
+        recordDate <= endDate
       );
     });
+
+    // const filteredAttendance = attendanceData.filter((record) => {
+    //   const recordDate = new Date(record.date);
+    //   return (
+    //     record.student_id.toLowerCase() === studentId.toLowerCase() &&
+    //     recordDate.getMonth() === selectedMonth.getMonth() &&
+    //     recordDate.getFullYear() === selectedMonth.getFullYear()
+    //   );
+    // });
 
     // Set the monthlyAttendance state
     setMonthlyAttendance(filteredAttendance);
@@ -138,7 +153,7 @@ const AttendanceReport = () => {
   };
 
   return (
-    <div>
+    <div id="attendance_report">
       <div
         style={{
           display: "flex",
@@ -154,7 +169,7 @@ const AttendanceReport = () => {
           minHeight: "50vh",
         }}
       >
-        <h2>Attendance Report</h2>
+        <h2 style={{ fontSize: "2rem" }}>Attendance Report</h2>
         <div
           style={{
             display: "flex",
@@ -208,6 +223,29 @@ const AttendanceReport = () => {
             showFullMonthYearPicker
             scrollableMonthYearDropdown
           />
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "2px",
+            margin: "4px",
+          }}
+        >
+          <label htmlFor="attendance_duration">
+            Choose the duration for report
+          </label>
+          <select
+            name="attendance_duration"
+            id="duration"
+            style={{ height: "50px", width: "200px" }}
+            value={selectedDuration}
+            onChange={(e) => setSelectedDuration(Number(e.target.value))}
+          >
+            <option value="1">1 month</option>
+            <option value="6">6 month</option>
+          </select>
         </div>
         <button
           style={{

@@ -31,23 +31,23 @@ const Navbar = ({ token, handleLogin, handleLogout }) => {
       </div>
       <ul className={`navbar-links ${isOpen ? "active" : ""}`}>
         <li className="navbar-item">
-          <a href="#home" className="navbar-link">
+          <a href="#createAttendance" className="navbar-link">
             Home
           </a>
         </li>
         <li className="navbar-item">
-          <a href="#about" className="navbar-link">
-            About
+          <a href="#groupchat" className="navbar-link">
+            GroupChat
           </a>
         </li>
         <li className="navbar-item">
-          <a href="#services" className="navbar-link">
-            Teacher-portal
+          <a href="#attendance_list" className="navbar-link">
+            Attendance List
           </a>
         </li>
         <li className="navbar-item">
-          <a href="#contact" className="navbar-link">
-            Contact
+          <a href="#attendance_report" className="navbar-link">
+            Attendance Report
           </a>
         </li>
       </ul>

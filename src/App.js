@@ -3,6 +3,7 @@ import CreateAttendanceForm from "./CreateAttendanceForm";
 import AttendanceList from "./AttendanceList";
 import UpdateAttendanceForm from "./UpdateAttendanceForm";
 import LoginForm from "./LoginForm";
+import GroupChat from "./GroupChat";
 import Navbar from "./Navbar";
 import AttendanceReport from "./AttendanceReport";
 import Footer from "./Footer";
@@ -15,6 +16,7 @@ const App = () => {
   const [updateAttendanceId, setUpdateAttendanceId] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
   const [token, setToken] = useState(null);
+  const [userName, setUserName] = useState("");
   const [loginState, setloginState] = useState(true);
 
   useEffect(() => {
@@ -42,8 +44,18 @@ const App = () => {
           // Set the token to state and local storage
           setToken(data.token);
           localStorage.setItem("token", data.token);
+          // Decode the JWT token to get user information (username)
+          const decodedToken = jwt_decode(data.token);
+          const dToken = jwt_decode(data.token);
+          console.log("---------------", decodedToken.username);
+
+          const { username } = decodedToken;
+          // Set the username in state
+          setUserName(decodedToken.username);
+          console.log("++++++++++++", userName);
         }
         if (data.error === "Invalid credentials") {
+          // Handle invalid credentials or other login errors
           setloginState(false);
         }
       })
@@ -180,6 +192,7 @@ const App = () => {
           )}
 
           <AttendanceReport />
+          <GroupChat userName={userName} />
         </>
       ) : (
         <LoginForm handleLogin={handleLogin} loginState={loginState} />

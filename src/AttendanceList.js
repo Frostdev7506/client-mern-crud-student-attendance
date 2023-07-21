@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRef } from "react";
+import { useEffect } from "react";
 import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import DatePicker from "react-datepicker";
@@ -16,6 +18,17 @@ const AttendanceList = ({
   const [updatedValues, setUpdatedValues] = useState({});
   const [date, setDate] = useState(null); // State for the date picker
   const [selectedFile, setSelectedFile] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+  const divRef = useRef(null);
+
+  const AttendanceListHeight = 1500;
+
+  // Effect to check the height and toggle the "Show More" button
+  useEffect(() => {
+    const divHeight = divRef.current.clientHeight;
+    // Set your desired max height in pixels
+    setExpanded(divHeight <= AttendanceListHeight);
+  }, [attendance]); // Update the effect when attendance changes
 
   const handleDelete = (attendanceId) => {
     deleteAttendance(attendanceId);
@@ -144,8 +157,9 @@ const AttendanceList = ({
   };
 
   return (
-    <div>
+    <div id="attendance_list">
       <div
+        ref={divRef}
         style={{
           margin: "auto",
           padding: "20px",
@@ -153,6 +167,8 @@ const AttendanceList = ({
           boxShadow: "0px 0px 10px black",
           marginLeft: "50px",
           marginRight: "50px",
+          maxHeight: expanded ? "none" : AttendanceListHeight, // Set max height here
+          overflowY: expanded ? "scroll" : "hidden",
         }}
       >
         <h1 style={{ textAlign: "center", fontSize: "2rem " }}>
@@ -301,6 +317,22 @@ const AttendanceList = ({
         ))}
         <hr></hr>
       </div>
+      {/* "Show More" button */}
+      {!expanded && (
+        <div style={{ textAlign: "center", margin: "20px 0" }}>
+          <button
+            style={{
+              color: "white",
+              height: "50px",
+              width: "140px",
+              backgroundColor: "#6B128B",
+            }}
+            onClick={() => setExpanded(true)}
+          >
+            Show More
+          </button>
+        </div>
+      )}
     </div>
   );
 };

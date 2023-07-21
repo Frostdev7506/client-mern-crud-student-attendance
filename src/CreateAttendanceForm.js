@@ -17,18 +17,16 @@ const CreateAttendanceForm = ({ createAttendance }) => {
 
   return (
     <div
+      id="createAttendance"
       className="form-container"
       style={{
         textAlign: "center",
         borderRadius: "10px",
-        marginTop: "200px",
-        height: "60vh",
+
+        height: "50vh",
         boxShadow: "0px 0px 10px black",
-        margin: "50px",
-        padding: "30px",
+
         backgroundColor: "#F5F5F5",
-        marginLeft: "50px",
-        marginRight: "50px",
       }}
     >
       <h2 style={{ textAlign: "center", fontSize: "2rem" }}>
