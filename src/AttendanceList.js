@@ -19,9 +19,18 @@ const AttendanceList = ({
   const [date, setDate] = useState(null); // State for the date picker
   const [selectedFile, setSelectedFile] = useState(null);
   const [expanded, setExpanded] = useState(false);
+  const recordsPerPage = 10; // Adjust as needed
+  const [currentPage, setCurrentPage] = useState(1);
+
   const divRef = useRef(null);
 
   const AttendanceListHeight = 1500;
+
+  const getRecordsForPage = () => {
+    const startIndex = (currentPage - 1) * recordsPerPage;
+    const endIndex = startIndex + recordsPerPage;
+    return attendance.slice(startIndex, endIndex);
+  };
 
   // Effect to check the height and toggle the "Show More" button
   useEffect(() => {
@@ -156,6 +165,7 @@ const AttendanceList = ({
     }
   };
 
+  const recordsToDisplay = getRecordsForPage();
   return (
     <div id="attendance_list">
       <div
@@ -192,11 +202,14 @@ const AttendanceList = ({
               </button>
             </div>
 
-            <div className="exportbtn" style={{ width: "200px" }}>
+            <div
+              className="exportbtn"
+              style={{ width: "200px", padding: "10px" }}
+            >
               <input
                 type="file"
                 accept=".xlsx"
-                style={{ width: "200px" }}
+                style={{}}
                 onChange={handleFileChange}
               />
             </div>
@@ -212,7 +225,7 @@ const AttendanceList = ({
             </div>
           </div>
         </div>
-        {attendance.map((record) => (
+        {recordsToDisplay.map((record) => (
           <div key={record.id}>
             <hr />
             <div
@@ -316,23 +329,47 @@ const AttendanceList = ({
           </div>
         ))}
         <hr></hr>
-      </div>
-      {/* "Show More" button */}
-      {!expanded && (
+        {/* Pagination controls */}
         <div style={{ textAlign: "center", margin: "20px 0" }}>
           <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
             style={{
               color: "white",
               height: "50px",
               width: "140px",
-              backgroundColor: "#6B128B",
+              margin: "5px",
+              backgroundColor: currentPage === 1 ? "#ccc" : "#6B128B",
+              cursor: currentPage === 1 ? "not-allowed" : "pointer",
             }}
-            onClick={() => setExpanded(true)}
           >
-            Show More
+            Previous Page
+          </button>
+          <span style={{ fontSize: "1.2rem", margin: "5px" }}>
+            Page {currentPage}
+          </span>
+          <button
+            disabled={currentPage * recordsPerPage >= attendance.length}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            style={{
+              color: "white",
+              height: "50px",
+              width: "140px",
+              margin: "5px",
+              backgroundColor:
+                currentPage * recordsPerPage >= attendance.length
+                  ? "#ccc"
+                  : "#6B128B",
+              cursor:
+                currentPage * recordsPerPage >= attendance.length
+                  ? "not-allowed"
+                  : "pointer",
+            }}
+          >
+            Next Page
           </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };

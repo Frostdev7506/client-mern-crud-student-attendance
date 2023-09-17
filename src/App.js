@@ -24,6 +24,19 @@ const App = () => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
+
+      // Decode the JWT token to get user information (username)
+      const decodedToken = jwt_decode(storedToken);
+      // Set the username in state
+      setUserName((previousUserName) => {
+        return decodedToken.username || previousUserName;
+      });
+    }
+
+    // Retrieve the username from localStorage
+    const storedUserName = localStorage.getItem("userName");
+    if (storedUserName) {
+      setUserName(storedUserName);
     }
   }, []);
 
@@ -51,7 +64,12 @@ const App = () => {
 
           const { username } = decodedToken;
           // Set the username in state
-          setUserName(decodedToken.username);
+          setUserName((previousUserName) => {
+            return decodedToken.username || previousUserName;
+          });
+
+          // Store the username in localStorage
+          localStorage.setItem("userName", userName || "");
           console.log("++++++++++++", userName);
         }
         if (data.error === "Invalid credentials") {

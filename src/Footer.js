@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles/Footer.css";
+import { AiOutlineArrowUp } from "react-icons/ai";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -30,7 +31,7 @@ const Footer = () => {
             }}
             onClick={scrollToTop}
           >
-            Top
+            <AiOutlineArrowUp size={20} color="red" />
           </button>
         </div>
         <div className="footer">
