@@ -25,7 +25,7 @@ const AttendanceReport = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
 
   const [studentId, setStudentId] = useState("");
-  const [totalAttendance, setTotalAttendance] = useState(0);
+  const [totalAttendance, setTotalAttendance] = useState(null);
   const [monthlyAttendance, setMonthlyAttendance] = useState([]);
   const [selectedDuration, setSelectedDuration] = useState(1);
   const checkBtnRef = useRef();
@@ -122,7 +122,7 @@ const AttendanceReport = () => {
             value={studentId}
             onInput={(e) => {
               setStudentId(e.target.value);
-              setTotalAttendance(0);
+              setTotalAttendance(null);
             }}
           />
         </div>
@@ -200,7 +200,7 @@ const AttendanceReport = () => {
             })}
             : {totalAttendance}
           </p>
-        ) : totalAttendance > 0 ? (
+        ) : totalAttendance !== null ? (
           <p>No result found </p>
         ) : null}
 

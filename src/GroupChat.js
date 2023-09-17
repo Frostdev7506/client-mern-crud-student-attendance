@@ -112,9 +112,13 @@ const GroupChat = ({ userName }) => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        borderRadius: "10px",
         marginTop: "50px",
+        marginBottom: "50px",
         margin: "10px",
         height: "auto",
+        boxShadow: "0px 0px 20px black",
+        backgroundColor: "#F5F5F5",
         minWidth: "90%",
       }}
     >
