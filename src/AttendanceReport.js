@@ -36,8 +36,14 @@ const AttendanceReport = () => {
       setStudentId("anon");
     }
 
+    console.log(selectedMonth);
+
     if (selectedMonth == null) {
-      setSelectedMonth("1923-07-16T18:30:00.000Z");
+      const currentDate = new Date();
+      const options = { year: "numeric", month: "long" };
+      const formattedDate = currentDate.toLocaleDateString(undefined, options);
+
+      setSelectedMonth(formattedDate);
     }
 
     // Calculate the end date based on the selected duration
@@ -61,10 +67,11 @@ const AttendanceReport = () => {
         const recordDate = new Date(record.date);
         return (
           record.student_id.toLowerCase() === studentId.toLowerCase() &&
-          recordDate >= selectedMonth &&
-          recordDate <= endDate
+          recordDate >= selectedMonth
         );
       });
+
+      console.log("filteredAttendance", filteredAttendance);
 
       // Set the monthlyAttendance state
       setMonthlyAttendance(filteredAttendance);

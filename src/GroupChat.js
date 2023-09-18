@@ -113,7 +113,11 @@ const GroupChat = ({ userName }) => {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "10px",
-        marginTop: "50px",
+        marginTop: "400px",
+        marginLeft: "50px",
+        marginRight: "50px",
+        padding: "20px",
+        paddingBottom: "100px",
         marginBottom: "50px",
         margin: "10px",
         height: "auto",
@@ -196,6 +200,7 @@ const GroupChat = ({ userName }) => {
       <div
         style={{
           display: "flex",
+          marginTop: "10px",
 
           flexDirection: "row",
           width: "90%",

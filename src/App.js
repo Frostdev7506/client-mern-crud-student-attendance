@@ -188,10 +188,9 @@ const App = () => {
 
   return (
     <div key="app">
-      <Navbar token={token} handleLogout={handleLogout} />
-
       {token ? (
         <>
+          <Navbar token={token} handleLogout={handleLogout} />
           <CreateAttendanceForm createAttendance={createAttendance} />
           <AttendanceList
             fetchAttendance={fetchAttendance}

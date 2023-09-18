@@ -4,8 +4,8 @@ import { useEffect } from "react";
 const LoginForm = ({ handleLogin, loginState }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [formtype, setFormtype] = useState("Teacher Login");
-  const [islogin, setislogin] = useState(loginState);
+  const [formtype, setFormtype] = useState("Teacher's Sign In");
+  const [islogin, setislogin] = useState(null);
   console.log(islogin);
 
   useEffect(() => {
@@ -67,6 +67,7 @@ const LoginForm = ({ handleLogin, loginState }) => {
             <input
               style={{
                 width: "200px",
+                borderRadius: "15px",
                 height: "30px",
                 border: `1.5px solid ${islogin ? "black" : "red"}`,
                 margin: "4px auto",
@@ -97,6 +98,7 @@ const LoginForm = ({ handleLogin, loginState }) => {
             <input
               style={{
                 width: "200px",
+                borderRadius: "15px",
                 border: `1.5px solid ${islogin ? "black" : "red"}`,
                 height: "30px",
                 margin: "4px auto",
@@ -118,6 +120,7 @@ const LoginForm = ({ handleLogin, loginState }) => {
             style={{
               color: "white",
               marginTop: "10px",
+              borderRadius: "25px",
               justifyItems: "center",
               height: "50px",
               width: "100px",

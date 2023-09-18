@@ -21,6 +21,9 @@ const AttendanceList = ({
   const [expanded, setExpanded] = useState(false);
   const recordsPerPage = 10; // Adjust as needed
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  // Create a ref for the search input
+  const searchInputRef = useRef(null);
 
   const divRef = useRef(null);
 
@@ -29,7 +32,25 @@ const AttendanceList = ({
   const getRecordsForPage = () => {
     const startIndex = (currentPage - 1) * recordsPerPage;
     const endIndex = startIndex + recordsPerPage;
-    return attendance.slice(startIndex, endIndex);
+    const searchValue = searchQuery.toLowerCase(); // Get the search query
+
+    // Filter records based on the search query
+    const filteredAttendance = attendance.filter((record) => {
+      if (!searchValue) return true; // Show all records when search is empty
+      return (
+        record.student_id.toLowerCase().includes(searchValue) ||
+        // Add more fields to search if needed
+        // record.otherField.toLowerCase().includes(searchValue) ||
+        // ...
+        false
+      );
+    });
+
+    return filteredAttendance.slice(startIndex, endIndex);
+  };
+
+  const handleSearch = () => {
+    setCurrentPage(1); // Reset to the first page when searching
   };
 
   // Effect to check the height and toggle the "Show More" button
@@ -202,14 +223,19 @@ const AttendanceList = ({
               </button>
             </div>
 
-            <div
-              className="exportbtn"
-              style={{ width: "200px", padding: "10px" }}
-            >
+            <div className="exportbtn" style={{ padding: "10px" }}>
               <input
                 type="file"
                 accept=".xlsx"
-                style={{}}
+                style={{
+                  width: "200px",
+                  height: "30px",
+                  border: "1px solid #ccc", // Add border style
+                  borderRadius: "5px", // Add border radius
+                  backgroundColor: "#f5f5f5", // Add background color
+                  color: "#333", // Add text color
+                  padding: "5px", // Add padding
+                }}
                 onChange={handleFileChange}
               />
             </div>
@@ -221,6 +247,34 @@ const AttendanceList = ({
                 style={{ width: "150px" }}
               >
                 Import From Excel
+              </button>
+            </div>
+            <div className="search">
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} // Update the search query state
+                style={{
+                  marginBottom: "10px",
+                  boxShadow: "10px",
+                  width: "300px",
+                  height: "50px",
+                  borderRadius: 25,
+                }}
+              />
+              <button
+                onClick={handleSearch} // Add this onClick handler
+                style={{
+                  marginLeft: "10px",
+                  color: "white",
+                  height: "50px",
+                  borderRadius: 25,
+                  width: "70px",
+                  backgroundColor: "#6B128B",
+                }}
+              >
+                Search
               </button>
             </div>
           </div>
