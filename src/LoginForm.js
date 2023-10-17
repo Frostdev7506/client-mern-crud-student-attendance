@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import ChangePasswordModal from "./components/ChangePasswordModal";
+import ChangePasswordModal from "./components/ChangePasswordModal.js";
+import { Modal, Button, Form } from "react-bootstrap";
 
 const LoginForm = ({ handleLogin, loginState }) => {
   const [username, setUsername] = useState("");
@@ -79,6 +80,7 @@ const LoginForm = ({ handleLogin, loginState }) => {
           <p hidden={islogin} style={{ color: "red" }}>
             Please check your username or your password.
           </p>
+          <ChangePasswordModal />
           <button style={styles.submitButton} type="submit">
             Login
           </button>
@@ -112,6 +114,7 @@ const styles = {
   },
   heading: {
     textAlign: "center",
+    color: "#6B128B",
     fontSize: "2rem",
     marginBottom: "100px",
   },
@@ -123,7 +126,9 @@ const styles = {
     padding: "4px",
   },
   label: {
+    padding: 2,
     fontSize: "1.5rem",
+    color: "#6B128B",
   },
   input: {
     width: "200px",
