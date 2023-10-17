@@ -113,9 +113,9 @@ const GroupChat = ({ userName }) => {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "10px",
-        marginTop: "400px",
-        marginLeft: "50px",
-        marginRight: "50px",
+        marginTop: "100px",
+        marginLeft: "70px",
+        marginRight: "70px",
         padding: "20px",
         paddingBottom: "100px",
         marginBottom: "50px",
@@ -138,6 +138,7 @@ const GroupChat = ({ userName }) => {
           border: "2px solid red",
           display: "flex",
           flexDirection: "column",
+
           overflowY: "scroll",
           padding: "10px",
         }}
@@ -151,6 +152,7 @@ const GroupChat = ({ userName }) => {
               color: message.sender === userName ? "#fff" : "#000",
               display: "flex",
               flexDirection: "column",
+
               padding: "10px",
               borderRadius: "20px",
               marginLeft: "30px",
@@ -161,7 +163,7 @@ const GroupChat = ({ userName }) => {
               wordWrap: "break-word",
 
               alignSelf:
-                message.userName === userName ? "flex-start" : "flex-start",
+                message.sender === userName ? "flex-end" : "flex-start  ",
               transition: "all 0.3s ease-in-out",
             }}
           >

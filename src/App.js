@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import AttendanceReport from "./AttendanceReport";
 import Footer from "./Footer";
 import Appcss from "./styles/App.css";
+import MainContent from "./components/MainContent";
 import { DateTime } from "luxon";
 import jwt_decode from "jwt-decode";
 
@@ -191,31 +192,26 @@ const App = () => {
       {token ? (
         <>
           <Navbar token={token} handleLogout={handleLogout} />
-          <CreateAttendanceForm createAttendance={createAttendance} />
-          <AttendanceList
+          <MainContent
+            token={token}
+            handleLogout={handleLogout}
+            createAttendance={createAttendance}
             fetchAttendance={fetchAttendance}
             attendance={attendance}
             setUpdateAttendanceId={setUpdateAttendanceId}
             deleteAttendance={deleteAttendance}
             updateAttendance={updateAttendance}
+            updateAttendanceId={updateAttendanceId}
+            handleUpdate={handleUpdate}
+            updatedValues={updatedValues}
+            setUpdatedValues={setUpdatedValues}
+            userName={userName}
           />
-          {updateAttendanceId && (
-            <UpdateAttendanceForm
-              attendanceId={updateAttendanceId}
-              handleUpdate={handleUpdate}
-              updatedValues={updatedValues}
-              setUpdatedValues={setUpdatedValues}
-            />
-          )}
-
-          <AttendanceReport />
-          <GroupChat userName={userName} />
+          <Footer />
         </>
       ) : (
         <LoginForm handleLogin={handleLogin} loginState={loginState} />
       )}
-
-      <Footer />
     </div>
   );
 };
