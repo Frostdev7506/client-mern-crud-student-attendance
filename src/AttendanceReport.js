@@ -21,8 +21,13 @@ import { DateTime } from "luxon";
 
 console.log("--------------", `${process.env.REACT_APP_CLIENT_URL}`);
 const AttendanceReport = () => {
+  const defaultDate = DateTime.fromObject({
+    year: 2022,
+    month: 1,
+    day: 1,
+  }).toJSDate();
   const [attendanceData, setAttendanceData] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [selectedMonth, setSelectedMonth] = useState(defaultDate);
 
   const [studentId, setStudentId] = useState("");
   const [totalAttendance, setTotalAttendance] = useState(null);
@@ -111,15 +116,24 @@ const AttendanceReport = () => {
           style={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
             padding: "2px",
             margin: "4px",
           }}
         >
-          <label htmlFor="studentId">Student ID:</label>
+          <label
+            style={{
+              fontSize: "1.5rem",
+            }}
+            htmlFor="studentId"
+          >
+            Student ID
+          </label>
           <input
             style={{
               width: "200px",
-              height: "30px",
+              height: "35px",
+              border: "2px solid gray",
               margin: "2px auto",
 
               padding: "2px",
@@ -137,17 +151,25 @@ const AttendanceReport = () => {
           style={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
             padding: "2px",
             margin: "4px",
           }}
         >
-          <label htmlFor="monthPicker">Select Month:</label>
+          <label
+            style={{
+              fontSize: "1.5rem",
+            }}
+            htmlFor="monthPicker"
+          >
+            Select Month
+          </label>
           <DatePicker
             id="monthPicker"
             style={{
               width: "200px",
               height: "30px",
-
+              border: "2px solid gray",
               margin: "2px auto",
 
               padding: "2px",
@@ -167,17 +189,24 @@ const AttendanceReport = () => {
           style={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
             padding: "2px",
             margin: "4px",
+            marginTop: "10px",
           }}
         >
-          <label htmlFor="attendance_duration">
+          <label
+            style={{
+              fontSize: "1.2rem",
+            }}
+            htmlFor="attendance_duration"
+          >
             Choose the duration for report
           </label>
           <select
             name="attendance_duration"
             id="duration"
-            style={{ height: "50px", width: "200px" }}
+            style={{ height: "50px", width: "200px", border: "2px solid gray" }}
             value={selectedDuration}
             onChange={(e) => setSelectedDuration(Number(e.target.value))}
           >
@@ -190,13 +219,15 @@ const AttendanceReport = () => {
           style={{
             color: "white",
             marginTop: "30px",
+            border: "2px solid gray",
+            fontSize: "1.2rem",
             height: "50px",
             width: "140px",
             backgroundColor: "#6B128B",
           }}
           onClick={handleCheckAttendance}
         >
-          Check Attendance
+          Check
         </button>
         {totalAttendance > 0 ? (
           <p>

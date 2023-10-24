@@ -1,49 +1,36 @@
 import React from "react";
-import "./styles/Footer.css";
-import { AiOutlineArrowUp } from "react-icons/ai";
+import "./css/footer.css";
 
-const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
+const footer = () => {
   return (
-    <>
-      <footer>
-        <div
-          style={{
-            zIndex: "2",
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          {" "}
-          {/* Back to Top button */}
-          <button
-            className="foitem"
-            style={{
-              justifySelf: "end",
-              border: "1px soild black",
-              borderRadius: "20px",
-            }}
-            onClick={scrollToTop}
-          >
-            <AiOutlineArrowUp size={20} color="red" />
-          </button>
+    <footer>
+      <div className="container">
+        <div className="row">
+          <h4 className="footer-title">Student Attendance app</h4>
         </div>
-        <div className="footer">
-          <ul className="fcontainer">
-            <li className="foitem">Teacher-portal</li>
-            <li className="foitem">About</li>
-            <li className="foitem">Contact</li>
+        <div className="row footer-links">
+          <ul>
+            <li>
+              <a href="#">About Us</a>
+            </li>
+            <li>
+              <a href="#">Privacy</a>
+            </li>
+            <li>
+              <a href="#">Contact</a>
+            </li>
           </ul>
         </div>
-      </footer>
-    </>
+      </div>
+      <hr />
+      <div className="text-center">
+        <p className="copyright">
+          &copy; 2023
+          <span className="copyright-name"> LLMLongPromptSplitter</span>
+        </p>
+      </div>
+    </footer>
   );
 };
 
-export default Footer;
+export default footer;

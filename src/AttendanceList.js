@@ -5,7 +5,6 @@ import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import { DateTime } from "luxon";
 
 const AttendanceList = ({
@@ -16,49 +15,35 @@ const AttendanceList = ({
 }) => {
   const [editMode, setEditMode] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
-  const [date, setDate] = useState(null); // State for the date picker
+  const [date, setDate] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [expanded, setExpanded] = useState(false);
-  const recordsPerPage = 10; // Adjust as needed
+  const recordsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  // Create a ref for the search input
   const searchInputRef = useRef(null);
-
   const divRef = useRef(null);
-
-  const AttendanceListHeight = 1500;
+  const AttendanceListHeight = 3000;
 
   const getRecordsForPage = () => {
     const startIndex = (currentPage - 1) * recordsPerPage;
     const endIndex = startIndex + recordsPerPage;
-    const searchValue = searchQuery.toLowerCase(); // Get the search query
-
-    // Filter records based on the search query
+    const searchValue = searchQuery.toLowerCase();
     const filteredAttendance = attendance.filter((record) => {
-      if (!searchValue) return true; // Show all records when search is empty
-      return (
-        record.student_id.toLowerCase().includes(searchValue) ||
-        // Add more fields to search if needed
-        // record.otherField.toLowerCase().includes(searchValue) ||
-        // ...
-        false
-      );
+      if (!searchValue) return true;
+      return record.student_id.toLowerCase().includes(searchValue) || false;
     });
-
     return filteredAttendance.slice(startIndex, endIndex);
   };
 
   const handleSearch = () => {
-    setCurrentPage(1); // Reset to the first page when searching
+    setCurrentPage(1);
   };
 
-  // Effect to check the height and toggle the "Show More" button
   useEffect(() => {
     const divHeight = divRef.current.clientHeight;
-    // Set your desired max height in pixels
     setExpanded(divHeight <= AttendanceListHeight);
-  }, [attendance]); // Update the effect when attendance changes
+  }, [attendance]);
 
   const handleDelete = (attendanceId) => {
     deleteAttendance(attendanceId);
@@ -70,13 +55,12 @@ const AttendanceList = ({
       (record) => record.id === attendanceId
     );
     setUpdatedValues(recordToUpdate);
-    setDate(new Date(recordToUpdate.date)); // Set the date picker value
+    setDate(new Date(recordToUpdate.date));
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
-
     setUpdatedValues((prevValues) => ({
       ...prevValues,
       [name]: newValue,
@@ -93,21 +77,19 @@ const AttendanceList = ({
     updateAttendance(attendanceId, updatedRecord);
     setEditMode(null);
     setUpdatedValues({});
-    setDate(null); // Reset the date picker value
+    setDate(null);
   };
 
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Attendance");
 
-    // Set column headers
     worksheet.columns = [
       { header: "Student ID", key: "studentId", width: 15 },
       { header: "Date", key: "date", width: 15 },
       { header: "Present", key: "present", width: 15 },
     ];
 
-    // Add attendance data to worksheet
     attendance.forEach((record) => {
       worksheet.addRow({
         studentId: record.student_id,
@@ -116,7 +98,6 @@ const AttendanceList = ({
       });
     });
 
-    // Generate Excel file
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -142,15 +123,11 @@ const AttendanceList = ({
 
           worksheet.eachRow((row, rowNumber) => {
             if (rowNumber > 1) {
-              // Skip the first row (headers)
               const studentId = row.getCell("A").value;
               const dateCellValue = row.getCell("B").value;
-              // const date = DateTime.fromJSDate(row.getCell("B").value);
               const present = row.getCell("C").value === "Yes";
-              console.log("Date Cell Value:", dateCellValue);
-              console.log("values------------", studentId, present);
 
-              let date = ""; // Default empty date value
+              let date = "";
               if (dateCellValue) {
                 const dateObj = new Date(dateCellValue);
                 if (!isNaN(dateObj.getTime())) {
@@ -161,7 +138,6 @@ const AttendanceList = ({
             }
           });
 
-          // Make API request to insert the imported attendance data
           fetch("http://localhost:5000/attendance", {
             method: "POST",
             headers: {
@@ -171,12 +147,10 @@ const AttendanceList = ({
           })
             .then((response) => response.json())
             .then((data) => {
-              // Handle the response data if needed
               console.log("Import successful:", data);
               fetchAttendance();
             })
             .catch((error) => {
-              // Handle the error if needed
               console.log("Import error:", error);
             });
         });
@@ -187,6 +161,7 @@ const AttendanceList = ({
   };
 
   const recordsToDisplay = getRecordsForPage();
+  const numPages = Math.ceil(attendance.length / recordsPerPage);
   return (
     <div id="attendance_list">
       <div
@@ -198,7 +173,7 @@ const AttendanceList = ({
           boxShadow: "0px 0px 10px black",
           marginLeft: "50px",
           marginRight: "50px",
-          maxHeight: expanded ? "none" : AttendanceListHeight, // Set max height here
+          maxHeight: expanded ? "none" : AttendanceListHeight,
           overflowY: expanded ? "scroll" : "hidden",
         }}
       >
@@ -222,7 +197,6 @@ const AttendanceList = ({
                 Export to Excel
               </button>
             </div>
-
             <div className="exportbtn" style={{ padding: "10px" }}>
               <input
                 type="file"
@@ -230,16 +204,15 @@ const AttendanceList = ({
                 style={{
                   width: "200px",
                   height: "30px",
-                  border: "1px solid #ccc", // Add border style
-                  borderRadius: "5px", // Add border radius
-                  backgroundColor: "#f5f5f5", // Add background color
-                  color: "#333", // Add text color
-                  padding: "5px", // Add padding
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  backgroundColor: "#f5f5f5",
+                  color: "#333",
+                  padding: "5px",
                 }}
                 onChange={handleFileChange}
               />
             </div>
-
             <div className="exportbtn">
               <button
                 className="export-button"
@@ -254,7 +227,7 @@ const AttendanceList = ({
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} // Update the search query state
+                onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
                   marginBottom: "10px",
                   boxShadow: "10px",
@@ -264,7 +237,7 @@ const AttendanceList = ({
                 }}
               />
               <button
-                onClick={handleSearch} // Add this onClick handler
+                onClick={handleSearch}
                 style={{
                   marginLeft: "10px",
                   color: "white",
@@ -349,7 +322,6 @@ const AttendanceList = ({
                       </p>
                       <p>{record.present ? "Yes" : "No"}</p>
                     </div>
-
                     <button
                       className="editbtn lineElement"
                       style={{
@@ -383,7 +355,6 @@ const AttendanceList = ({
           </div>
         ))}
         <hr></hr>
-        {/* Pagination controls */}
         <div style={{ textAlign: "center", margin: "20px 0" }}>
           <button
             disabled={currentPage === 1}
@@ -400,24 +371,18 @@ const AttendanceList = ({
             Previous Page
           </button>
           <span style={{ fontSize: "1.2rem", margin: "5px" }}>
-            Page {currentPage}
+            Page {currentPage} of {numPages}
           </span>
           <button
-            disabled={currentPage * recordsPerPage >= attendance.length}
             onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage >= numPages}
             style={{
               color: "white",
               height: "50px",
               width: "140px",
               margin: "5px",
-              backgroundColor:
-                currentPage * recordsPerPage >= attendance.length
-                  ? "#ccc"
-                  : "#6B128B",
-              cursor:
-                currentPage * recordsPerPage >= attendance.length
-                  ? "not-allowed"
-                  : "pointer",
+              backgroundColor: currentPage >= numPages ? "#ccc" : "#6B128B",
+              cursor: currentPage >= numPages ? "not-allowed" : "pointer",
             }}
           >
             Next Page

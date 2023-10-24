@@ -5,7 +5,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 const LoginForm = ({ handleLogin, loginState }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [formtype, setFormtype] = useState("Teacher's Sign In");
+  const [formtype, setFormtype] = useState("Teacher Login");
   const [islogin, setislogin] = useState(null);
   const [userError, setuserError] = useState(null);
   const [passError, setpassError] = useState(null);
@@ -41,7 +41,7 @@ const LoginForm = ({ handleLogin, loginState }) => {
         <form onSubmit={handleSubmit}>
           <div style={styles.inputContainer}>
             <label style={styles.label} htmlFor="username">
-              Username:
+              Username
             </label>
             <input
               style={{
@@ -59,7 +59,7 @@ const LoginForm = ({ handleLogin, loginState }) => {
           </div>
           <div style={styles.inputContainer}>
             <label style={styles.label} htmlFor="password">
-              Password:
+              Password
             </label>
             <input
               style={{
@@ -80,7 +80,7 @@ const LoginForm = ({ handleLogin, loginState }) => {
           <p hidden={islogin} style={{ color: "red" }}>
             Please check your username or your password.
           </p>
-          <ChangePasswordModal />
+
           <button style={styles.submitButton} type="submit">
             Login
           </button>
@@ -116,7 +116,7 @@ const styles = {
     textAlign: "center",
     color: "#6B128B",
     fontSize: "2rem",
-    marginBottom: "100px",
+    marginBottom: "80px",
   },
   inputContainer: {
     display: "flex",
@@ -132,7 +132,7 @@ const styles = {
   },
   input: {
     width: "200px",
-    borderRadius: "15px",
+    border: "2px solid gray",
     height: "30px",
     margin: "4px auto",
     padding: "2px",
@@ -142,13 +142,13 @@ const styles = {
   },
   submitButton: {
     color: "white",
-    marginTop: "10px",
-    borderRadius: "25px",
+    marginTop: "20px",
+
     justifyItems: "center",
     height: "50px",
-    width: "100px",
+    width: "120px",
     backgroundColor: "#6B128B",
     paddingBottom: "2px",
-    margin: "2px solid black",
+    margin: "2px solid gray",
   },
 };

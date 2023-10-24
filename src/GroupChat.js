@@ -113,20 +113,26 @@ const GroupChat = ({ userName }) => {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "10px",
-        marginTop: "100px",
-        marginLeft: "70px",
-        marginRight: "70px",
+        marginLeft: "50px",
+        marginRight: "50px",
+        marginTop: "50px",
+        marginBottom: "30px",
         padding: "20px",
-        paddingBottom: "100px",
-        marginBottom: "50px",
-        margin: "10px",
+        paddingBottom: "50px",
+
         height: "auto",
         boxShadow: "0px 0px 20px black",
         backgroundColor: "#F5F5F5",
-        minWidth: "90%",
       }}
     >
-      <h2 style={{ marginBottom: "10px" }}>Group Chat</h2>
+      <h2
+        style={{
+          marginBottom: "10px",
+          fontSize: "2rem",
+        }}
+      >
+        Group Chat
+      </h2>
       <h3>
         <strong>Hi, {username}</strong>
       </h3>
@@ -135,11 +141,12 @@ const GroupChat = ({ userName }) => {
           width: "80vw",
           height: "70vh",
           borderRadius: "30px",
-          border: "2px solid red",
+          border: "4px solid black",
           display: "flex",
           flexDirection: "column",
 
-          overflowY: "scroll",
+          overflowY: "hidden",
+          overflowX: "hidden  ",
           padding: "10px",
         }}
       >
