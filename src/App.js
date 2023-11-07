@@ -188,7 +188,7 @@ const App = () => {
   };
 
   return (
-    <div key="app">
+    <div className="app-parent" key="app">
       {token ? (
         <>
           <Navbar token={token} handleLogout={handleLogout} />

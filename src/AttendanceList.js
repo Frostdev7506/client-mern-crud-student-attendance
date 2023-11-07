@@ -163,12 +163,13 @@ const AttendanceList = ({
   const recordsToDisplay = getRecordsForPage();
   const numPages = Math.ceil(attendance.length / recordsPerPage);
   return (
-    <div id="attendance_list">
+    <div className="attendance_list" id="attendance_list">
       <div
         ref={divRef}
         style={{
           margin: "auto",
           padding: "20px",
+          backgroundColor: "#f5f5f5",
           borderRadius: "10px",
           boxShadow: "0px 0px 10px black",
           marginLeft: "50px",

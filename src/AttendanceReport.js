@@ -101,6 +101,7 @@ const AttendanceReport = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          backgroundColor: "#f5f5f5",
           alignItems: "center",
           borderRadius: "10px",
           boxShadow: "0px 0px 10px black",

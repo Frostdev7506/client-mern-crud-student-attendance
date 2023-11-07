@@ -115,8 +115,8 @@ const styles = {
   heading: {
     textAlign: "center",
     color: "#6B128B",
-    fontSize: "2rem",
-    marginBottom: "80px",
+    fontSize: "3rem",
+    marginBottom: "60px",
   },
   inputContainer: {
     display: "flex",
@@ -129,6 +129,9 @@ const styles = {
     padding: 2,
     fontSize: "1.5rem",
     color: "#6B128B",
+  },
+  errorcolor: {
+    color: "red",
   },
   input: {
     width: "200px",
