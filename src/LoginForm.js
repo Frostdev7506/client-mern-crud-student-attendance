@@ -1,6 +1,7 @@
+import { ExpandLessSharp } from "@material-ui/icons";
 import React, { useState, useEffect } from "react";
-import ChangePasswordModal from "./components/ChangePasswordModal.js";
-import { Modal, Button, Form } from "react-bootstrap";
+import { BsArrowLeftSquareFill } from "react-icons/bs";
+import { BsArrowRightSquareFill } from "react-icons/bs";
 
 const LoginForm = ({ handleLogin, loginState }) => {
   const [username, setUsername] = useState("");
@@ -34,10 +35,27 @@ const LoginForm = ({ handleLogin, loginState }) => {
     return null;
   };
 
+  function changeForm() {
+    if (formtype == "Teacher Login") {
+      setFormtype("Admin Login");
+    } else {
+      setFormtype("Teacher Login");
+    }
+  }
+
   return (
     <div style={styles.container}>
       <div style={styles.formContainer}>
-        <h2 style={styles.heading}>{formtype}</h2>
+        <div style={styles.headingContainer}>
+          <button onClick={changeForm}>
+            <BsArrowLeftSquareFill size={35} />
+          </button>
+          <h2 style={styles.heading}>{formtype}</h2>
+          <button onClick={changeForm}>
+            <BsArrowRightSquareFill size={35} />
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div style={styles.inputContainer}>
             <label style={styles.label} htmlFor="username">
@@ -76,8 +94,8 @@ const LoginForm = ({ handleLogin, loginState }) => {
               }}
             />
           </div>
-          {passError && <p style={{ color: "red" }}>{passError}</p>}
-          <p hidden={islogin} style={{ color: "red" }}>
+          {passError && <p style={styles.errorColor}>{passError}</p>}
+          <p hidden={islogin} style={styles.errorColor}>
             Please check your username or your password.
           </p>
 
@@ -112,11 +130,21 @@ const styles = {
     marginLeft: "50px",
     marginRight: "50px",
   },
+  headingContainer: {
+    textAlign: "center",
+    color: "#6B128B",
+    display: "flex",
+
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   heading: {
     textAlign: "center",
     color: "#6B128B",
-    fontSize: "3rem",
-    marginBottom: "60px",
+    fontSize: "2rem",
+    marginLeft: 4,
+    marginRight: 4,
   },
   inputContainer: {
     display: "flex",
@@ -130,7 +158,7 @@ const styles = {
     fontSize: "1.5rem",
     color: "#6B128B",
   },
-  errorcolor: {
+  errorColor: {
     color: "red",
   },
   input: {
