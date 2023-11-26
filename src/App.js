@@ -9,6 +9,7 @@ import AttendanceReport from "./AttendanceReport";
 import Footer from "./Footer";
 import Appcss from "./styles/App.css";
 import MainContent from "./components/MainContent";
+import AdminPannel from "./components/AdminPannel";
 import { DateTime } from "luxon";
 import jwt_decode from "jwt-decode";
 
@@ -19,6 +20,7 @@ const App = () => {
   const [token, setToken] = useState(null);
   const [userName, setUserName] = useState("");
   const [loginState, setloginState] = useState(true);
+  const [isAdminLogin, setIsAdminLogin] = useState(false);
 
   useEffect(() => {
     // Check if a token exists in local storage
@@ -42,14 +44,14 @@ const App = () => {
   }, []);
 
   // handle user login
-  const handleLogin = (username, password) => {
+  const handleLogin = (username, password, apptype) => {
     // Perform login request to the server
     fetch("http://localhost:5000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, apptype }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -57,6 +59,7 @@ const App = () => {
         if (data.token) {
           // Set the token to state and local storage
           setToken(data.token);
+          apptype === "admins" ? setIsAdminLogin(true) : setIsAdminLogin(false);
           localStorage.setItem("token", data.token);
           // Decode the JWT token to get user information (username)
           const decodedToken = jwt_decode(data.token);
@@ -189,7 +192,7 @@ const App = () => {
 
   return (
     <div className="app-parent" key="app">
-      {token ? (
+      {token && !isAdminLogin ? (
         <>
           <Navbar token={token} handleLogout={handleLogout} />
           <MainContent
@@ -209,7 +212,15 @@ const App = () => {
           />
           <Footer />
         </>
+      ) : token && isAdminLogin ? (
+        // Render content for admin when isAdminLogin is true
+        <>
+          <Navbar token={token} handleLogout={handleLogout} />
+          <AdminPannel />
+          <Footer />
+        </>
       ) : (
+        // Render login form when there is no token or isAdminLogin is true
         <LoginForm handleLogin={handleLogin} loginState={loginState} />
       )}
     </div>
