@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles/Navbar.css";
 
-const Navbar = ({ token, handleLogin, handleLogout }) => {
+const Navbar = ({ token, handleLogin, handleLogout, isAdminLogin }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogoutClick = () => {
@@ -29,28 +29,33 @@ const Navbar = ({ token, handleLogin, handleLogout }) => {
         <span className="toggle-icon"></span>
         <span className="toggle-icon"></span>
       </div>
-      <ul className={`navbar-links ${isOpen ? "active" : ""}`}>
-        <li className="navbar-item">
-          <a href="#createAttendance" className="navbar-link">
-            Home
-          </a>
-        </li>
-        <li className="navbar-item">
-          <a href="#groupchat" className="navbar-link">
-            GroupChat
-          </a>
-        </li>
-        <li className="navbar-item">
-          <a href="#attendance_list" className="navbar-link">
-            Attendance List
-          </a>
-        </li>
-        <li className="navbar-item">
-          <a href="#attendance_report" className="navbar-link">
-            Attendance Report
-          </a>
-        </li>
-      </ul>
+      {!isAdminLogin ? (
+        <ul className={`navbar-links ${isOpen ? "active" : ""}`}>
+          <li className="navbar-item">
+            <a href="#createAttendance" className="navbar-link">
+              Home
+            </a>
+          </li>
+          <li className="navbar-item">
+            <a href="#groupchat" className="navbar-link">
+              GroupChat
+            </a>
+          </li>
+          <li className="navbar-item">
+            <a href="#attendance_list" className="navbar-link">
+              Attendance List
+            </a>
+          </li>
+          <li className="navbar-item">
+            <a href="#attendance_report" className="navbar-link">
+              Attendance Report
+            </a>
+          </li>
+        </ul>
+      ) : (
+        <ul></ul>
+      )}
+
       {token ? (
         <button className="toggle logout" onClick={handleLogout}>
           Logout
@@ -60,6 +65,10 @@ const Navbar = ({ token, handleLogin, handleLogout }) => {
       )}
     </nav>
   );
+};
+
+Navbar.defaultProps = {
+  isAdminLogin: false, // Set your default value for the token prop
 };
 
 export default Navbar;

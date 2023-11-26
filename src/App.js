@@ -215,7 +215,11 @@ const App = () => {
       ) : token && isAdminLogin ? (
         // Render content for admin when isAdminLogin is true
         <>
-          <Navbar token={token} handleLogout={handleLogout} />
+          <Navbar
+            token={token}
+            handleLogout={handleLogout}
+            isAdminLogin={isAdminLogin}
+          />
           <AdminPannel />
           <Footer />
         </>
